@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -11,6 +13,7 @@ import (
 type Config struct {
 	Port      string
 	SecretJWT string
+	CacheTTL  time.Duration
 }
 
 func LoadConfig() (*Config, error) {
@@ -25,7 +28,34 @@ func LoadConfig() (*Config, error) {
 	}
 
 	return &Config{
-		Port:      os.Getenv("PORT"),
+		Port:      resolvePort(),
 		SecretJWT: os.Getenv("SECRET_JWT"),
+		CacheTTL:  resolveCacheTTL(),
 	}, nil
+}
+
+const (
+	defaultPort    = "8080"
+	defaultCacheTTl = 30 * time.Minute
+)
+
+func resolvePort() string {
+	if port := os.Getenv("PORT"); port != "" {
+		return port
+	}
+	log.Printf("PORT not set, defaulting to %s", defaultPort)
+	return defaultPort
+}
+
+func resolveCacheTTL() time.Duration {
+	value := os.Getenv("CACHE_TTL_MINUTES")
+	if value == "" {
+		return defaultCacheTTl
+	}
+	minutes, err := strconv.Atoi(value)
+	if err != nil || minutes <= 0 {
+		log.Printf("Invalid CACHE_TTL_MINUTES=%q, using default %s", value, defaultCacheTTl)
+		return defaultCacheTTl
+	}
+	return time.Duration(minutes) * time.Minute
 }
