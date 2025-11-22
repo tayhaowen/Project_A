@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api_project_a
+    environment:
+      PORT: "8080"
+    ports:
+      - 8080:8080

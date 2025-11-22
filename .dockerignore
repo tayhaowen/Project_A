@@ -1,0 +1,60 @@
+# Binaries
+server
+*.exe
+*.out
+*.o
+*.test
+
+# Git
+.git
+.gitignore
+
+# IDE/editor files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Build/cache dirs
+bin/
+build/
+dist/
+cover/
+vendor/
+
+# Local data and environment
+/db
+.env
+.env.local
+.env.production
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+*.prof
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# GitHub
+.github/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Air live reloading
+tmp/
